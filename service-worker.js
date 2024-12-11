@@ -2,7 +2,7 @@ const CACHE_NAME = "village-sim-cache-v1";
 const urlsToCache = [
     "./",
     "./index.html",
-    "./main.js",
+    "./script.js",
     "./assets/lalpur_c.png", // Add all assets you want to cache
     "./assets/img.png",
     "./assets/img1.png",

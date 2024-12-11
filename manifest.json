@@ -1,6 +1,6 @@
 {
-    "name": "MyVillage",
-    "short_name": "MyVille",
+    "name": "VillageCraft",
+    "short_name": "VillageCraft",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#ffffff",

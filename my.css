@@ -26,6 +26,7 @@ body {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
+  border-radius: 5px;
 }
 
 .menu-top button:hover {
@@ -41,6 +42,7 @@ body {
   background-color: #f4f4f4;
   padding: 10px 0;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
   z-index: 1000;
 }
 
@@ -52,11 +54,19 @@ body {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
+  border-radius: 5px;
 }
 
 .menu-bottom button:hover {
   background-color: #007BFF;
   color: #fff;
+}
+
+/* Highlight selected button */
+button.active {
+  background-color: #28a745 !important; /* Green for active */
+  color: white;
+  border-color: #28a745;
 }
 
 /* Main Content Styles */
@@ -70,11 +80,11 @@ main {
 /* Responsive Design */
 @media (max-width: 768px) {
   .menu-bottom button, .menu-top button {
-      font-size: 14px;
-      padding: 8px 15px;
+    font-size: 14px;
+    padding: 8px 15px;
   }
 
   .menu-bottom button {
-      margin: 5px;
+    margin: 5px;
   }
 }
