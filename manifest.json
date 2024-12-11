@@ -1,7 +1,7 @@
 {
     "name": "VillageCraft",
     "short_name": "VillageCraft",
-    "start_url": "./index.html",
+    "start_url": "./a.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#000000",
