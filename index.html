@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Three.js Base Map</title>
-    <link rel="manifest" href="manifest.json">
     <style>
         body {
             margin: 0;
@@ -14,8 +13,35 @@
             display: block;
         }
     </style>
+      <link rel="stylesheet" href="my.css">
+
 </head>
 <body>
-    <script type="module" src="main.js"></script>
+    <div id="container"></div>
+    <nav class="menu-top">
+        <button>Shore</button>
+        <button>Bridge</button>
+        <button>Neighborhood</button>
+    </nav>
+    <div id="top-menu">
+        <button>Shore</button>
+        <button>Bridge</button>
+        <button>Neighborhood</button>
+      </div>
+  
+  <div id="map-container"></div>
+  
+
+  <nav class="menu-bottom">
+    <button id="NewPlan">New Plan</button>
+    <button id="Road">Road</button>
+    <button>Pipeline</button>
+    <button>Building</button>
+    <button>Trees</button>
+
+    <button>Submit Plan</button>
+</nav>
+  
+    <script type="module" src="script.js"></script>
 </body>
 </html>

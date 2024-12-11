@@ -1,0 +1,80 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Top Menu Styles */
+.menu-top {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #f4f4f4;
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  z-index: 1000;
+}
+
+.menu-top button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-top button:hover {
+  background-color: #007BFF;
+  color: #fff;
+}
+
+/* Bottom Menu Styles */
+.menu-bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #f4f4f4;
+  padding: 10px 0;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.menu-bottom button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  margin: 0 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-bottom button:hover {
+  background-color: #007BFF;
+  color: #fff;
+}
+
+/* Main Content Styles */
+main {
+  margin-top: 50px; /* Prevent content from overlapping top menu */
+  margin-bottom: 50px; /* Prevent content from overlapping bottom menu */
+  padding: 20px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .menu-bottom button, .menu-top button {
+      font-size: 14px;
+      padding: 8px 15px;
+  }
+
+  .menu-bottom button {
+      margin: 5px;
+  }
+}
