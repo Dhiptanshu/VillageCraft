@@ -135,18 +135,48 @@ async function createTerrain() {
 }
 
 // Add Block Functionality
-function addNewMesh() {
-  const box = new THREE.Mesh(
-    new THREE.BoxGeometry(5, 5, 5),
-    new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff })
-  );
-  box.position.set(Math.random() * 50 - 25, 5, Math.random() * 50 - 25);
-  draggableObjects.push(box);
-  scene.add(box);
+// function addNewMesh() {
+//   const box = new THREE.Mesh(
+//     new THREE.BoxGeometry(5, 5, 5),
+//     new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff })
+//   );
+//   box.position.set(Math.random() * 50 - 25, 5, Math.random() * 50 - 25);
+//   draggableObjects.push(box);
+//   scene.add(box);
 
-  dragControls.objects.push(box);
-  console.log('New block added to the scene.');
+//   dragControls.objects.push(box);
+//   console.log('New block added to the scene.');
+// }
+// Add Model as a Block
+function addNewMesh() {
+  const loader = new GLTFLoader();
+  const modelUrl = './models/brick.glb'; // Replace with the path to your desired model
+
+  loader.load(
+    modelUrl,
+    (gltf) => {
+      const model = gltf.scene;
+
+      // Randomly position the model within bounds
+      model.position.set(
+        Math.random() * 50 - 25, // Random X position
+        0, // Place on the ground
+        Math.random() * 50 - 25 // Random Z position
+      );
+
+      draggableObjects.push(model);
+      scene.add(model);
+
+      // Add the model to drag controls
+      dragControls.objects.push(model);
+
+      console.log('New model added to the scene.');
+    },
+    undefined,
+    (error) => console.error('Error loading model:', error)
+  );
 }
+
 
 // Save and Load State
 function saveState() {
@@ -354,7 +384,66 @@ camera.position.z = 30;
 }
   document.addEventListener('DOMContentLoaded', () => {
     // Fetch the button element
-    document.getElementById('NewPlan').addEventListener('click', addNewMesh);
+    // Toggle display of New Plan options
+document.getElementById('NewPlan').addEventListener('click', () => {
+    const options = document.getElementById('new-plan-options');
+    options.style.display = options.style.display === 'none' ? 'block' : 'none';
+});
+
+// Option 1: Add a Tree
+document.getElementById('Option1').addEventListener('click', () => {
+  const loader = new GLTFLoader();
+  const modelUrl = './models/street_lamp.glb'; // Replace with the desired model path
+  loader.load(
+      modelUrl,
+      (gltf) => {
+          const model = gltf.scene;
+          model.position.set(20, 0, 20);
+          draggableObjects.push(model);
+          scene.add(model);
+          console.log('Custom model added to the scene.');
+      },
+      undefined,
+      (error) => console.error('Error loading model:', error)
+  );
+});
+
+// Option 2: Add a House
+document.getElementById('Option2').addEventListener('click', () => {
+  const loader = new GLTFLoader();
+  const modelUrl = './models/brick_house.glb'; // Replace with the desired model path
+  loader.load(
+      modelUrl,
+      (gltf) => {
+          const model = gltf.scene;
+          model.position.set(20, 0, 20);
+          draggableObjects.push(model);
+          scene.add(model);
+          console.log('Custom model added to the scene.');
+      },
+      undefined,
+      (error) => console.error('Error loading model:', error)
+  );
+});
+
+// Option 3: Add a Custom Model
+document.getElementById('Option3').addEventListener('click', () => {
+    const loader = new GLTFLoader();
+    const modelUrl = './models/custom_model.glb'; // Replace with the desired model path
+    loader.load(
+        modelUrl,
+        (gltf) => {
+            const model = gltf.scene;
+            model.position.set(20, 0, 20);
+            draggableObjects.push(model);
+            scene.add(model);
+            console.log('Custom model added to the scene.');
+        },
+        undefined,
+        (error) => console.error('Error loading model:', error)
+    );
+});
+
     document.getElementById('Road').addEventListener('click', myFun);
     document.getElementById('Save').addEventListener('click', saveState);
     document.getElementById('Load').addEventListener('click', loadState);

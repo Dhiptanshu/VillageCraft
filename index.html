@@ -3,46 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three.js Base Map</title>
-    <link rel="manifest" href="manifest.json">
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
-        canvas {
-            display: block;
-        }
-    </style>
-      <link rel="stylesheet" href="my.css">
-
+    <title>Three.js Base Map with Coin Counter</title>
+    <link rel="stylesheet" href="my.css">
 </head>
 <body>
-    <div id="container"></div>
+    <!-- Top Menu -->
     <nav class="menu-top">
         <button>Shore</button>
         <button>Bridge</button>
         <button>Neighborhood</button>
+        <div class="coin-counter">
+            <img src="coin.jpg" alt="Coin">
+            <div class="count">crafties-100</div>
+        </div>
+        <div class="xp">
+            <img src="xp.jpg" alt="xp">
+            <div class="count">Happiness-0</div>
+       
+        </div>
     </nav>
-    <div id="top-menu">
-        <button>Shore</button>
-        <button>Bridge</button>
-        <button>Neighborhood</button>
-      </div>
-  
-  <div id="map-container"></div>
-  
 
-  <nav class="menu-bottom">
-    <button id="NewPlan">New Plan</button>
-    <button id="Road">Road</button>
-    <button id="Save">Save</button>
-    <button id="Load">Load</button>
-    <button id="Delete">Delete</button>
+    <!-- Main Content -->
+    <main>
+        <div id="map-container"></div>
+    </main>
 
-    <button>Submit Plan</button>
-</nav>
-  
+    <!-- Bottom Menu -->
+    <nav class="menu-bottom">
+        <button id="NewPlan">New Plan</button>
+        <div id="new-plan-options" style="display: none; padding: 10px; border: 1px solid #ddd; background: #f9f9f9;">
+            <button id="Option1">Option 1: Add Street Light</button>
+            <button id="Option2">Option 2: Add House</button>
+            <button id="Option3">Option 3: Add Custom Model</button>
+        </div>
+        <button id="Road">Road</button>
+        <button id="Save">Save</button>
+        <button id="Load">Load</button>
+        <button id="Delete">Delete</button>
+        <button>Submit Plan</button>
+    </nav>
+
     <script type="module" src="script.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: #f0f0f0;
 }
 
 /* Top Menu Styles */
@@ -16,6 +17,10 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
 }
 
 .menu-top button {
@@ -26,12 +31,56 @@ body {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
-  border-radius: 5px;
 }
 
 .menu-top button:hover {
   background-color: #007BFF;
   color: #fff;
+}
+
+/* Coin Counter Styles */
+.coin-counter {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.xp {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.coin-counter img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+.xp img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.xp .count {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-right: 20px;
+}
+
+Main Content Styles
+main {
+  margin-top: 70px; /* Adjust for top menu height */
+  margin-bottom: 60px; /* Adjust for bottom menu height */
+  padding: 20px;
+  text-align: center;
 }
 
 /* Bottom Menu Styles */
@@ -42,8 +91,9 @@ body {
   background-color: #f4f4f4;
   padding: 10px 0;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
   z-index: 1000;
+  display: flex;
+  justify-content: center;
 }
 
 .menu-bottom button {
@@ -54,7 +104,6 @@ body {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
-  border-radius: 5px;
 }
 
 .menu-bottom button:hover {
@@ -62,29 +111,27 @@ body {
   color: #fff;
 }
 
-/* Highlight selected button */
-button.active {
-  background-color: #28a745 !important; /* Green for active */
-  color: white;
-  border-color: #28a745;
-}
-
-/* Main Content Styles */
-main {
-  margin-top: 50px; /* Prevent content from overlapping top menu */
-  margin-bottom: 50px; /* Prevent content from overlapping bottom menu */
-  padding: 20px;
-  text-align: center;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
-  .menu-bottom button, .menu-top button {
-    font-size: 14px;
-    padding: 8px 15px;
+  .menu-top button, .menu-bottom button {
+      font-size: 14px;
+      padding: 8px 15px;
   }
 
   .menu-bottom button {
-    margin: 5px;
+      margin: 5px;
+  }
+
+  .coin-counter {
+      padding: 5px;
+  }
+
+  .coin-counter img {
+      width: 25px;
+      height: 25px;
+  }
+
+  .coin-counter .count {
+      font-size: 16px;
   }
 }
