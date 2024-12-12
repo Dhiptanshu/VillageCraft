@@ -7,6 +7,8 @@ async function fetchJSONData() {
     // Retrieve username and password from input fields
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
+    const user_id = localStorage.getItem("user_id"); 
+    const place = localStorage.getItem("place");
 
     // Prepare POST parameters
     const params = new URLSearchParams();
@@ -35,10 +37,7 @@ async function fetchJSONData() {
         // Validate the response
         if (data.code === '200') {
             // Login success, redirect to menu
-            localStorage.setItem("username",username);
-            localStorage.setItem("user_id",data.user_id);
             window.location.href = "menu.html";
-            console.log(user_id);
         } else {
             // Login failed, show error message
             displayErrorMessage("Invalid username or password.");

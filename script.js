@@ -33,10 +33,10 @@ camera.zoom = 8; // Adjust the zoom level
 camera.updateProjectionMatrix();
 
 // Grid Helper
-const gridSize = 100;
-const gridDivisions = 10;
-const gridHelper = new THREE.GridHelper(gridSize, gridDivisions);
-scene.add(gridHelper);
+// const gridSize = 100;
+// const gridDivisions = 25;
+// const gridHelper = new THREE.GridHelper(gridSize, gridDivisions);
+// scene.add(gridHelper);
 
 // Draggable Objects Array
 const draggableObjects = [];
@@ -143,8 +143,8 @@ async function fetchJSONData() {
   const url = "https://glsmoodle.in/vaat/newplace.php";
  
   const params = new URLSearchParams();
-params.append("user_id", "101");
-params.append("place", "building");
+params.append("user_id", localStorage.getItem("user_id"));
+params.append("place", localStorage.getItem("place"));
 params.append("point_x", "10");
 params.append("point_y", "30");
 
@@ -193,8 +193,10 @@ function addNewMesh() {
     new THREE.BoxGeometry(5, 5, 5),
     new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff })
   );
-  // box.position.set(Math.random() * 50 - 25, 5, Math.random() * 50 - 25);
-  box.position.set(10,30);
+  box.position.set(Math.random() * 50 - 25, 2.6, Math.random() * 50 - 25);
+  //box.position.set(10,2.6,30);
+  // localStorage.setItem("10",point_x);
+  // localStorage.setItem("30",point_z);
   draggableObjects.push(box);
   scene.add(box);
 
@@ -342,19 +344,19 @@ function onScreenClick(event) {
 window.addEventListener('click', onScreenClick);
 
 
-// Toolbar
-const toolbar = document.createElement('div');
-toolbar.style.position = 'fixed';
-toolbar.style.top = '10px';
-toolbar.style.left = '10px';
-toolbar.style.backgroundColor = '#333';
-toolbar.style.color = 'white';
-toolbar.style.padding = '10px';
-toolbar.style.borderRadius = '5px';
-toolbar.style.display = 'flex';
-toolbar.style.gap = '10px';
-toolbar.style.alignItems = 'center';
-document.body.appendChild(toolbar);
+// // Toolbar
+// const toolbar = document.createElement('div');
+// toolbar.style.position = 'fixed';
+// toolbar.style.top = '10px';
+// toolbar.style.left = '10px';
+// toolbar.style.backgroundColor = '#333';
+// toolbar.style.color = 'white';
+// toolbar.style.padding = '10px';
+// toolbar.style.borderRadius = '5px';
+// toolbar.style.display = 'flex';
+// toolbar.style.gap = '10px';
+// toolbar.style.alignItems = 'center';
+// document.body.appendChild(toolbar);
 
 // Dropdown for Model Selection
 const dropdown = document.createElement('select');
@@ -389,31 +391,31 @@ models.forEach((model) => {
   dropdown.appendChild(option);
 });
 
-// Create Toolbar Button
-function createToolbarButton(label, onClick) {
-  const button = document.createElement('button');
-  button.textContent = label;
-  button.style.backgroundColor = '#555';
-  button.style.color = 'white';
-  button.style.border = 'none';
-  button.style.padding = '5px 10px';
-  button.style.cursor = 'pointer';
-  button.style.borderRadius = '5px';
-  button.addEventListener('click', onClick);
-  toolbar.appendChild(button);
-}
+// // Create Toolbar Button
+// function createToolbarButton(label, onClick) {
+//   const button = document.createElement('button');
+//   button.textContent = label;
+//   button.style.backgroundColor = '#555';
+//   button.style.color = 'white';
+//   button.style.border = 'none';
+//   button.style.padding = '5px 10px';
+//   button.style.cursor = 'pointer';
+//   button.style.borderRadius = '5px';
+//   button.addEventListener('click', onClick);
+//   toolbar.appendChild(button);
+// }
 
 // Toolbar Buttons
-createToolbarButton('Add Block', addNewMesh);
-createToolbarButton('Add Model', () => {
-  dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-});
-createToolbarButton('Save State', saveState);
-createToolbarButton('Load State', loadState);
-createToolbarButton('Delete Object', deleteLastObject);
+// // createToolbarButton('Add Block', addNewMesh);
+// createToolbarButton('Add Model', () => {
+//   dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+// });
+// createToolbarButton('Save State', saveState);
+// createToolbarButton('Load State', loadState);
+// createToolbarButton('Delete Object', deleteLastObject);
 
 // Append Dropdown to Toolbar
-toolbar.appendChild(dropdown);
+// toolbar.appendChild(dropdown);
 
 // PWA Install Button Logic
 let deferredPrompt = null;
@@ -515,13 +517,15 @@ document.getElementById('NewPlan').addEventListener('click', () => {
 
 // Option 1: Add a Tree
 document.getElementById('Option1').addEventListener('click', () => {
+  localStorage.setItem("place","streetlight");
+  fetchJSONData();
   const loader = new GLTFLoader();
   const modelUrl = './models/street_lamp.glb'; // Replace with the desired model path
   loader.load(
       modelUrl,
       (gltf) => {
           const model = gltf.scene;
-          model.position.set(20, 0, 20);
+          model.position.set(Math.random() * 50 - 25, 2.6, Math.random() * 50 - 25);;
           draggableObjects.push(model);
           scene.add(model);
           console.log('Custom model added to the scene.');
@@ -567,6 +571,7 @@ document.getElementById('Option3').addEventListener('click', () => {
     //     undefined,
     //     (error) => console.error('Error loading model:', error)
     // );
+    localStorage.setItem("place","building");
     fetchJSONData();
 });
 

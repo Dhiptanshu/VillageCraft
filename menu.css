@@ -73,6 +73,15 @@ body {
     transition: all 0.3s ease;
 }
 
+#welcome-message {
+    font-size: 32px; /* Increase font size */
+    font-weight: bold; /* Make the text bold */
+    color: #000000; /* Set the text color */
+    margin-top: 10px; /* Add some space above the welcome message */
+    text-align: center; /* Center the text */
+}
+
+
 .menu-item:hover {
     transform: translateY(-3px);
     background: linear-gradient(180deg, #3498db, #8e44ad);
