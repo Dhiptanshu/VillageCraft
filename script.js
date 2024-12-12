@@ -115,7 +115,8 @@ function initializeDragControls() {
   });
 }
 
-// Terrain Creation
+let terrain; // Declare terrain in a shared scope
+
 async function createTerrain() {
   const textureLoader = new THREE.TextureLoader();
   const texture = textureLoader.load('./lalpur_c.png');
@@ -128,54 +129,57 @@ async function createTerrain() {
     metalness: 0,
   });
 
-  const terrain = new THREE.Mesh(geometry, material);
+  terrain = new THREE.Mesh(geometry, material); // Assign the terrain to the shared variable
   scene.add(terrain);
 
   initializeDragControls();
 }
 
+
+
 // Add Block Functionality
-// function addNewMesh() {
-//   const box = new THREE.Mesh(
-//     new THREE.BoxGeometry(5, 5, 5),
-//     new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff })
-//   );
-//   box.position.set(Math.random() * 50 - 25, 5, Math.random() * 50 - 25);
-//   draggableObjects.push(box);
-//   scene.add(box);
-
-//   dragControls.objects.push(box);
-//   console.log('New block added to the scene.');
-// }
-// Add Model as a Block
 function addNewMesh() {
-  const loader = new GLTFLoader();
-  const modelUrl = './models/brick.glb'; // Replace with the path to your desired model
-
-  loader.load(
-    modelUrl,
-    (gltf) => {
-      const model = gltf.scene;
-
-      // Randomly position the model within bounds
-      model.position.set(
-        Math.random() * 50 - 25, // Random X position
-        0, // Place on the ground
-        Math.random() * 50 - 25 // Random Z position
-      );
-
-      draggableObjects.push(model);
-      scene.add(model);
-
-      // Add the model to drag controls
-      dragControls.objects.push(model);
-
-      console.log('New model added to the scene.');
-    },
-    undefined,
-    (error) => console.error('Error loading model:', error)
+  const box = new THREE.Mesh(
+    new THREE.BoxGeometry(5, 5, 5),
+    new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff })
   );
+  box.position.set(Math.random() * 50 - 25, 5, Math.random() * 50 - 25);
+  draggableObjects.push(box);
+  scene.add(box);
+
+  dragControls.objects.push(box);
+  console.log('New block added to the scene.');
 }
+// Add Model as a Block
+
+// function addNewMesh() {
+//   const loader = new GLTFLoader();
+//   const modelUrl = './models/brick.glb'; // Replace with the path to your desired model
+
+//   loader.load(
+//     modelUrl,
+//     (gltf) => {
+//       const model = gltf.scene;
+
+//       // Randomly position the model within bounds
+//       model.position.set(
+//         Math.random() * 50 - 25, // Random X position
+//         0, // Place on the ground
+//         Math.random() * 50 - 25 // Random Z position
+//       );
+
+//       draggableObjects.push(model);
+//       scene.add(model);
+
+//       // Add the model to drag controls
+//       dragControls.objects.push(model);
+
+//       console.log('New model added to the scene.');
+//     },
+//     undefined,
+//     (error) => console.error('Error loading model:', error)
+//   );
+// }
 
 
 // Save and Load State
@@ -219,6 +223,74 @@ function addModel(url, position = { x: 0, y: 0, z: 0 }) {
     (error) => console.error('Error loading model:', error)
   );
 }
+
+// function addMarker(position) {
+//   const geometry = new THREE.SphereGeometry(2, 16, 16);
+//   const material = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Red color
+//   const marker = new THREE.Mesh(geometry, material);
+//   marker.position.copy(position);
+//   scene.add(marker);
+//   marker.push(marker);
+//   console.log('Marker added at:', position);
+// }
+
+// function createRoad() {
+//   if (markers.length < 2) return; // Wait until two markers are added
+
+//   // Get the positions of the two markers
+//   const start = markers[0].position;
+//   const end = markers[1].position;
+
+//   // Calculate the midpoint and length of the road
+//   const midpoint = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+//   const length = start.distanceTo(end);
+
+//   // Create the road geometry (thin rectangular box)
+//   const geometry = new THREE.BoxGeometry(length, 1, 5); // Length x Thickness x Width
+//   const material = new THREE.MeshBasicMaterial({ color: 0x808080 }); // Gray color
+//   const road = new THREE.Mesh(geometry, material);
+
+//   // Position and rotate the road
+//   road.position.copy(midpoint);
+//   road.lookAt(end); // Align road with the end marker
+//   road.rotateX(Math.PI / 2); // Adjust rotation to lay flat
+//   scene.add(road);
+//   roads.push(road);
+
+//   // Remove markers after creating the road (optional)
+//   // markers.forEach((marker) => scene.remove(marker));
+
+//   // Clear markers array after use (optional)
+//   markers = []; // Clear markers array
+
+//   console.log('Road created between markers:', start, end);
+// }
+
+function onScreenClick(event) {
+  // Convert click to normalized device coordinates (NDC)
+  const mouse = new THREE.Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1
+  );
+
+  // Raycast to find intersected objects
+  const raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObject(terrain); // Assuming `terrain` is the ground object
+
+  if (intersects.length > 0) {
+      const position = intersects[0].point; // Get the intersection point
+      addMarker(position);
+
+      if (markers.length === 2) {
+          createRoad(); // Create a road after two markers are added
+      }
+  }
+}
+
+// Add event listener for user clicks
+window.addEventListener('click', onScreenClick);
+
 
 // Toolbar
 const toolbar = document.createElement('div');
@@ -326,6 +398,7 @@ scene.add(tree2);
 // Use the function to draw the path between the trees
 drawPath(tree1.position, tree2.position);
 
+
 // Create a popup modal for model selection
 function showModelPopup() {
   const modal = document.createElement('div');
@@ -411,7 +484,7 @@ document.getElementById('Option1').addEventListener('click', () => {
 // Option 2: Add a House
 document.getElementById('Option2').addEventListener('click', () => {
   const loader = new GLTFLoader();
-  const modelUrl = './models/brick_house.glb'; // Replace with the desired model path
+  const modelUrl = './models/brickhouse.glb';
   loader.load(
       modelUrl,
       (gltf) => {
@@ -428,20 +501,22 @@ document.getElementById('Option2').addEventListener('click', () => {
 
 // Option 3: Add a Custom Model
 document.getElementById('Option3').addEventListener('click', () => {
-    const loader = new GLTFLoader();
-    const modelUrl = './models/custom_model.glb'; // Replace with the desired model path
-    loader.load(
-        modelUrl,
-        (gltf) => {
-            const model = gltf.scene;
-            model.position.set(20, 0, 20);
-            draggableObjects.push(model);
-            scene.add(model);
-            console.log('Custom model added to the scene.');
-        },
-        undefined,
-        (error) => console.error('Error loading model:', error)
-    );
+    // const loader = new GLTFLoader();
+    // const modelUrl = './models/custom_model.glb'; // Replace with the desired model path
+    // loader.load(
+    //     modelUrl,
+    //     (gltf) => {
+    //         const model = gltf.scene;
+    //         model.position.set(20, 0, 20);
+    //         draggableObjects.push(model);
+    //         scene.add(model);
+    //         console.log('Custom model added to the scene.');
+    //     },
+    //     undefined,
+    //     (error) => console.error('Error loading model:', error)
+    // );
+    addNewMesh();
+    
 });
 
     document.getElementById('Road').addEventListener('click', myFun);

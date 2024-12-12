@@ -16,20 +16,23 @@
                 <h2>Login to Your Adventure</h2>
                 <form action="menu.html">
                     <div class="textbox">
-                        <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Enter your Username" required>
+                      <i class="fas fa-user"></i>
+                      <input type="text" id="username" placeholder="Enter your Username" required>
                     </div>
                     <div class="textbox">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Enter your Password" required>
+                      <i class="fas fa-lock"></i>
+                      <input type="password" id="password" placeholder="Enter your Password" required>
                     </div>
-                    <input type="submit" value="Login">
+                    <input id="login" type="button" value="Login">
+                  </form>
+                    <!-- <form id="form_id" method="POST" action="./script.js"></form> -->
                     <p>Don't have an account? <a href="b.html">Sign Up</a></p>
                 </form>
                 
             </div>
         </div>
     </div>
+    <script type="module" src="loginapi.js"></script>
 </body>
 </html>
 

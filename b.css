@@ -130,7 +130,7 @@ h2 {
 }
 
 /* Buttons */
-input[type="submit"] {
+input[type="button"] {
     width: 100%;
     padding: 15px;
     background: linear-gradient(90deg, #8e44ad, #3498db);
