@@ -135,7 +135,57 @@ async function createTerrain() {
   initializeDragControls();
 }
 
+async function fetchJSONData() {
 
+  console.log("in func 1");
+  addNewMesh();
+
+  const url = "https://glsmoodle.in/vaat/newplace.php";
+ 
+  const params = new URLSearchParams();
+params.append("user_id", "101");
+params.append("place", "building");
+params.append("point_x", "10");
+params.append("point_y", "30");
+
+  try {
+    const response = await fetch(url, {
+      method: "POST", // HTTP method
+      headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+      },
+      mode: "cors",
+      body: params.toString() // Convert object to JSON string
+    });
+    const data = await response.json();
+    console.log("Fetched Data:", data);
+
+    // if (!response.ok) {
+    //   throw new Error(HTTP error! Status: ${response.status});
+    // }
+
+    // const data = await response.json();
+    // console.log("Fetched Data:", data);
+
+    // Store data into the array
+    // data.forEach(item => dataArray.push(item));
+    // console.log("Data stored in array:", dataArray);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+  // try {
+  //   const response = await fetch(url);
+  //   const data = await response.json();
+    
+  //   // data.forEach(item => dataArray.push(item));
+  //   console.log("Fetched JSON data:", data);
+
+  //   // Use the fetched data to dynamically create objects in THREE.js
+  //   // mapDataToObjects(dataArray);
+  // } catch (error) {
+  //   console.error("Error fetching JSON data:", error);
+  // }
+}
 
 // Add Block Functionality
 function addNewMesh() {
@@ -143,12 +193,12 @@ function addNewMesh() {
     new THREE.BoxGeometry(5, 5, 5),
     new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff })
   );
-  box.position.set(Math.random() * 50 - 25, 5, Math.random() * 50 - 25);
+  // box.position.set(Math.random() * 50 - 25, 5, Math.random() * 50 - 25);
+  box.position.set(10,30);
   draggableObjects.push(box);
   scene.add(box);
 
-  dragControls.objects.push(box);
-  console.log('New block added to the scene.');
+   console.log('New block added to the scene.');
 }
 // Add Model as a Block
 
@@ -501,6 +551,8 @@ document.getElementById('Option2').addEventListener('click', () => {
 
 // Option 3: Add a Custom Model
 document.getElementById('Option3').addEventListener('click', () => {
+
+  console.log("print in click");
     // const loader = new GLTFLoader();
     // const modelUrl = './models/custom_model.glb'; // Replace with the desired model path
     // loader.load(
@@ -515,8 +567,7 @@ document.getElementById('Option3').addEventListener('click', () => {
     //     undefined,
     //     (error) => console.error('Error loading model:', error)
     // );
-    addNewMesh();
-    
+    fetchJSONData();
 });
 
     document.getElementById('Road').addEventListener('click', myFun);
