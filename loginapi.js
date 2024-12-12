@@ -38,7 +38,7 @@ async function fetchJSONData() {
             window.location.href = "menu.html";
         } else {
             // Login failed, show error message
-            displayErrorMessage("Login failed. Please check your credentials.");
+            displayErrorMessage("Invalid username or password.");
         }
     } catch (error) {
         console.error("Error during login request:", error);
