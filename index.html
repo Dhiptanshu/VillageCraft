@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Craft - Remastered</title>
+    <link rel="stylesheet" href="css/my.css">
+</head>
+
+<body>
+    <!-- HUD: Stats -->
+    <div id="ui-hud">
+        <div class="stat-box">
+            <img src="assets/coin.jpg" alt="Crafties" class="icon-img">
+            <span id="stat-budget">50,000</span>
+        </div>
+        <div class="stat-box">
+            <img src="assets/xp.jpg" alt="Happiness" class="icon-img">
+            <span id="stat-happiness">50</span>
+        </div>
+    </div>
+
+    <!-- Main 3D Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Build Menu (Hidden by default, styled as popup) -->
+    <div id="ui-build-menu" class="hidden">
+        <div class="build-item" data-type="house">
+            <svg class="preview-icon" viewBox="0 0 24 24" fill="#E67E22">
+                <path d="M12 3L2 12H5V20H19V12H22L12 3Z" />
+            </svg>
+            <div class="info">
+                <span class="name">House</span>
+                <span class="cost">₹5,000</span>
+            </div>
+        </div>
+        <div class="build-item" data-type="large_house">
+            <svg class="preview-icon" viewBox="0 0 24 24" fill="#E74C3C">
+                <path
+                    d="M12 3L2 12H5V20H9V12H15V20H19V12H22L12 3M7 10h2v2H7v-2m0 4h2v2H7v-2m8-4h2v2h-2v-2m0 4h2v2h-2v-2z" />
+            </svg>
+            <div class="info">
+                <span class="name">Multi-Storey House</span>
+                <span class="cost">₹8,000</span>
+            </div>
+        </div>
+        <div class="build-item" data-type="lamp">
+            <svg class="preview-icon" viewBox="0 0 24 24" fill="#F1C40F">
+                <path d="M11 2V19H10V22H14V19H13V7H16V2H11ZM13 19V22H11V19H13Z" />
+                <circle cx="13.5" cy="4.5" r="1.5" fill="white" />
+            </svg>
+            <div class="info">
+                <span class="name">Street Light</span>
+                <span class="cost">₹1,000</span>
+            </div>
+        </div>
+        <div class="build-item" data-type="tree">
+            <svg class="preview-icon" viewBox="0 0 24 24" fill="#2ECC71">
+                <path d="M12 2L3 14H7V22H17V14H21L12 2Z" />
+            </svg>
+            <div class="info">
+                <span class="name">Tree</span>
+                <span class="cost">₹50</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rotation Slider (Hidden by default) -->
+    <div id="ui-rotate-container" class="hidden"
+        style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.2); padding: 5px 0; border-radius: 5px; text-align: center; display: flex; flex-direction: column; align-items: center; width: 30px;">
+        <label
+            style="color: white; margin-bottom: 5px; font-size: 10px; font-weight: bold; writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg);">Rotate</label>
+        <!-- Vertical Slider -->
+        <input type="range" id="ui-rotate-slider" min="0" max="6.28" step="0.1" value="0"
+            style="width: 150px; height: 3px; transform: rotate(270deg); margin: 60px 0; cursor: pointer;">
+    </div>
+
+    <!-- Mechanics Help Text (Hidden by default) -->
+    <div id="ui-mechanics" class="hidden"
+        style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 5px; color: white; font-size: 12px; max-width: 200px; text-align: right;">
+        <div
+            style="margin-bottom: 5px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 3px;">
+            Mechanics <span onclick="this.parentElement.parentElement.classList.add('hidden')"
+                style="cursor: pointer; color: #ff5555; margin-left: 5px;">[x]</span>
+        </div>
+        <div>• <b>Right-Click</b>: Lock/Unlock</div>
+        <div>• <b>Slider</b>: Rotate Object</div>
+        <div>• <b>Left-Click</b>: Place</div>
+    </div>
+
+    <!-- Bottom Toolbar (Restored OG Style) -->
+    <div id="ui-toolbar">
+        <div class="tool-group">
+            <button id="btn-build" class="tool-btn">
+                <img src="assets/plan.png" alt="Build" class="icon-btn">
+            </button>
+            <span class="tool-label">Build</span>
+        </div>
+
+        <div class="tool-group">
+            <button id="btn-edit" class="tool-btn">
+                <!-- Using plan.png with hue rotate filter (green) as requested -->
+                <img src="assets/plan.png" alt="Move" class="icon-btn green-icon">
+            </button>
+            <span class="tool-label">Move (₹50)</span>
+        </div>
+
+        <div class="tool-group">
+            <button id="btn-save" class="tool-btn secondary">
+                <img src="assets/save.png" alt="Save" class="icon-btn">
+            </button>
+            <span class="tool-label">Save</span>
+        </div>
+
+        <div class="tool-group">
+            <button id="btn-load" class="tool-btn secondary">
+                <img src="assets/load.png" alt="Load" class="icon-btn">
+            </button>
+            <span class="tool-label">Load</span>
+        </div>
+
+        <div class="tool-group">
+            <button id="btn-delete" class="tool-btn danger">
+                <img src="assets/delete.png" alt="Undo" class="icon-btn">
+            </button>
+            <span class="tool-label">Undo</span>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="ui-toast" class="hidden">Notification</div>
+
+    <script type="module" src="js/script.js"></script>
+</body>
+
+</html>
