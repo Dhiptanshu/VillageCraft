@@ -100,69 +100,56 @@ export class GISLoader {
             // 2. Extrude
             const extrudeSettings = {
                 steps: 1,
-                depth: 4, // Height of building (4 meters?)
+                depth: 4,
                 bevelEnabled: false
             };
 
             const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
-            // 3. Color
-            cx /= pts;
-            cy /= pts;
-            // Check bounds (centroid)
-            if (cx < west || cx > east || cy < south || cy > north) return;
+            // 3. TRANSFORM FIRST (Rotate to correct orientation)
+            // We rotate the GEOMETRY, not the Mesh, so we can calculate UVs easily after
+            geometry.rotateX(-Math.PI / 2);
 
-            // Get color from map at centroid
-            // Convert centroid to world X,Z
-            const cu = (cx - west) / mapWidth;
-            const cv = (cy - south) / mapHeight;
-            const cWorldX = (cu * this.terrain.worldSize) - halfSize;
-            const cWorldZ = halfSize - (cv * this.terrain.worldSize);
+            // geometry vertices are now in World Space (mostly) relative to 0,0,0
+            // because we created the Shape using World Coordinates.
 
-            let color = new THREE.Color(0xdddddd);
-            if (this.terrain.getColorAt) {
-                color = this.terrain.getColorAt(cWorldX, cWorldZ);
+            // 4. Calculate UVs to match Map
+            const posAttribute = geometry.attributes.position;
+            const uvAttribute = geometry.attributes.uv;
 
-                // Brighten it a bit? Roofs might be dark
-                color.multiplyScalar(1.2);
+            const half = this.terrain.worldSize / 2;
+            const size = this.terrain.worldSize;
+
+            for (let i = 0; i < posAttribute.count; i++) {
+                const x = posAttribute.getX(i);
+                const z = posAttribute.getZ(i); // This is World Z (after rotation)
+
+                // Map UV Calculation
+                // u = (x + half) / size
+                // v = 1 - (z + half) / size (Inverted Z for Map Y)
+
+                const u = (x + half) / size;
+                const v = 1 - (z + half) / size;
+
+                uvAttribute.setXY(i, u, v);
             }
 
+            uvAttribute.needsUpdate = true;
+            geometry.computeVertexNormals();
+
+            // 5. Material
+            // Use the same texture as the terrain!
+            const terrainTex = this.terrain.terrainMesh.material.map;
             const material = new THREE.MeshStandardMaterial({
-                color: color,
+                map: terrainTex,
                 roughness: 0.8,
-                metalness: 0.1
+                metalness: 0.1,
+                color: 0xffffff // White so texture shows true color
             });
 
             const mesh = new THREE.Mesh(geometry, material);
 
-            // 4. Transform
-            // ExtrudeGeometry generates in X-Y plane, extruding in +Z.
-            // Our ShapeY was -WorldZ.
-            // So (x, y, z_extrude) -> (WorldX, -WorldZ, Up).
-            // We want Up to be WorldY.
-            // Currently:
-            // Mesh X = Shape X = World X.
-            // Mesh Y = Shape Y = -World Z.
-            // Mesh Z = Extrusion = Height (4).
-
-            // We need:
-            // World X = Mesh X
-            // World Z = -Mesh Y
-            // World Y = Mesh Z
-
-            mesh.rotation.x = -Math.PI / 2; // Rotates +Y to -Z. +Z to +Y.
-
-            // Verify:
-            // Original +Z (Height) -> Becomes +Y (World Up). CORRECT.
-            // Original +Y (Shape Y/North) -> Becomes -Z (World North). CORRECT.
-
-            // Position shift?
-            // Extrude geometry is local.
-            // Centroid mapping relies on Shape coords being relative to 0,0?
-            // No, we built the shape using World Coords directly in the loop.
-            // So the mesh origin is 0,0,0, and vertices are at World positions.
-
-            // Standard Terrain Height
+            // Position Y
             const baseHeight = this.terrain.terrainMesh ? this.terrain.terrainMesh.position.y : 0;
             mesh.position.y = baseHeight;
 
@@ -171,7 +158,7 @@ export class GISLoader {
             count++;
         });
 
-        console.log(`GIS: Generated ${count} procedural buildings.`);
+        console.log(`GIS: Generated ${count} Textured Buildings.`);
         if (window.ui) window.ui.toast(`Generated ${count} Buildings`);
     }
 }

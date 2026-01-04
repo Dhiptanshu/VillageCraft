@@ -8,10 +8,10 @@ import { GISLoader } from './GISLoader.js';
 const CONFIG = {
   snap: 1, // Grid snap size (smaller for more freedom)
   scales: {
-    house: 0.2, // Increased from 0.012
-    large_house: 0.15, // Reduced to match relative scale better
-    lamp: 0.1,  // Perfect as is
-    tree: 0.3   // Reduced from 2.0
+    house: 1.0,
+    large_house: 0.8,
+    lamp: 0.65,
+    tree: 2.0
   },
   costs: {
     house: 5000,
