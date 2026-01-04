@@ -1,6 +1,8 @@
 import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/GLTFLoader.js';
+import { TerrainManager } from './Terrain.js';
+import { GISLoader } from './GISLoader.js';
 
 // --- CONFIGURATION ---
 const CONFIG = {
@@ -645,15 +647,17 @@ dirLight.shadow.camera.bottom = -50;
 window.scene.add(dirLight);
 
 // Terrain
-const tex = new THREE.TextureLoader().load('./assets/lalpur_c.png');
-// Force texture encoding if needed, though standard is usually fine
-const terrain = new THREE.Mesh(
-  new THREE.PlaneGeometry(100, 100),
-  new THREE.MeshStandardMaterial({ map: tex, roughness: 1 })
-);
-terrain.rotation.x = -Math.PI / 2;
-terrain.receiveShadow = true;
-window.scene.add(terrain);
+// Terrain
+// Terrain
+// Terrain
+// Terrain
+window.terrain = new TerrainManager(window.scene);
+// Load Flat Map (null heightmap)
+window.terrain.loadTerrain(null, './assets/lalpur_c.png').then(() => {
+  console.log("Terrain Loaded. Initializing GIS...");
+  window.gis = new GISLoader(window.scene, window.terrain);
+  window.gis.loadBuildings('./assets/buildings.geojson');
+});
 
 // Initialize UI & Input LAST (so DOM is ready)
 window.ui = new UIManager();
