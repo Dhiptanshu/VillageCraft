@@ -2,9 +2,9 @@ const CACHE_NAME = "village-sim-cache-v1";
 const urlsToCache = [
     "./",
     "./index.html",
-    "./a.html",
-    "./b.html",
-    "./script.js",
+    "./login.html",
+    "./signup.html",
+    "./js/script.js",
     "./assets/lalpur_c.png", // Add all assets you want to cache
     "./assets/img.png",
     "./assets/img1.png",
@@ -16,18 +16,18 @@ const urlsToCache = [
 
 // Install the service worker and cache necessary assets
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        return cache.addAll(urlsToCache);
-      })
-  );
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                return cache.addAll(urlsToCache);
+            })
+    );
 });
 
 // Fetch event for network-first and cache-first strategies
 self.addEventListener("fetch", (event) => {
     // Cache the essential files (index.html, JS, etc.) with cache-first strategy
-    if (event.request.url.includes("a.html") || event.request.url.includes("script.js")) {
+    if (event.request.url.includes("login.html") || event.request.url.includes("script.js")) {
         event.respondWith(
             caches.match(event.request).then((response) => {
                 return response || fetch(event.request).then((fetchResponse) => {

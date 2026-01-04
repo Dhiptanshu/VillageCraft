@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Village Craft</title>
-    <link rel="stylesheet" href="menu.css">
+    <link rel="stylesheet" href="css/menu.css">
 </head>
+
 <body>
     <div class="jungle-container">
         <header class="header">
@@ -25,7 +27,7 @@
     <script>
         // Retrieve username from localStorage (or sessionStorage or URL)
         const username = localStorage.getItem("username"); // Using localStorage here as an example
-        
+
         if (username) {
             // If username exists, display a welcome message
             const welcomeMessage = document.getElementById("welcome-message");
@@ -39,8 +41,9 @@
         }
 
         function redirectToLead() {
-            window.location.href = "c.html";
+            window.location.href = "leaderboard.html";
         }
     </script>
 </body>
+
 </html>
