@@ -13,7 +13,7 @@ VillageCraft is a web-based 3D city-building simulation game that integrates rea
 The application frontend is deployed on Vercel for high availability and performance.
 
 **Backend Hosting**:
-The backend infrastructure (Save/Load APIs) is hosted on the **GLS University** servers (Faculty of Engineering and Technology, `glsmoodle`) as of Jan 2026. This ensures secure and persistent data storage for all users.
+The backend infrastructure (Save/Load APIs) is hosted on the `glsmoodle` servers (Faculty of Engineering and Technology, **GLS University**) as of Jan 2026. This ensures secure and persistent data storage for all users.
 
 ## Technologies Used
 
