@@ -31,5 +31,5 @@ tmp/
 temp/
 .cache/
 
-# Sat data
+# Sat data  
 .ecw
