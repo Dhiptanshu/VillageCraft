@@ -1,47 +1,77 @@
 # VillageCraft
-Village Craft is a game developed in the form of a web app, specifically addressing problem statement 1704 of the Smart India Hackathon 2024. Me and my team and JavaChip qualified for the Grand Finale and presented this project on the big stage. Our main aim was the gamification of rural development. The goal was to educate the village youth on the development of their lands, so they can understand and openly give their suggestions to the Gram Panchayat. While this project is not in its finished and polished form, this repository consists of the front end and the main logic of the game. The user data is stored on our college servers.
 
-Many droneland image survey maps were provided by the Ministry of Panchayti Raj. We extracted one of the maps and hosted it in our game. We used the Three.js JavaScript library for game logic like placing objects and hosting the map. 
+VillageCraft is a web-based 3D city-building simulation game that integrates real-world Geographic Information System (GIS) data to generate immersive environments. Users can plan, build, and manage a village economy within a browser-based 3D interface.
 
-The game is hosted as a website/webapp on Vercel. We decided to create a web app so it can be easily supported across platforms. The webapp is installable on Windows, Linux, and Android OS.
+## Deployment
 
-[Click](https://village-craft.vercel.app/) to go to the game.
+**Live Demo**: [Insert Vercel Link Here]
 
-## Project Structure
-The project has been organized into the following structure:
-- **css/**: Stylesheets
-- **js/**: JavaScript files
-- **assets/**: Images and textures
-- **models/**: 3D GLB models
-- **Root**: HTML files (`index.html`, `login.html`, etc.)
+## Technologies Used
 
-## How to Run Locally
+*   **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+*   **3D Engine**: Three.js
+*   **Asset Loading**: GLTFLoader (3D Models)
+*   **GIS Processing**: QGIS (Data preparation), GeoJSON (Vector data), geotiff (Raster data)
+*   **Backend**: PHP (Cloud persistence)
 
-Since this project uses ES Modules (importing Three.js maps), you must serve it via a local web server. You cannot simply open the `index.html` file in a browser.
+## Installation Guide
 
-### Option 1: Using Python (Recommended)
-If you have Python installed:
-1. Open a terminal in the project directory.
-2. Run one of the following commands:
-   ```bash
-   # Python 3
-   python -m http.server 8000
-   
-   # Python 2
-   python -m SimpleHTTPServer 8000
-   ```
-3. Open your browser and go to `http://localhost:8000`.
+To run the project locally, follow these steps:
 
-### Option 2: Using Node.js (serve)
-If you have Node.js installed:
-1. Install `serve` globally (optional) or use `npx`:
-   ```bash
-   npx serve .
-   ```
-2. Open the URL shown in the terminal (usually `http://localhost:3000`).
+1.  **Clone the Repository**
+    Clone the project files to your local machine.
 
-### Option 3: VS Code Live Server
-If you use Visual Studio Code:
-1. Install the "Live Server" extension.
-2. Right-click `index.html`.
-3. Select "Open with Live Server".
+2.  **Setup Local Server**
+    Due to browser security policies regarding local file access (CORS), the application must be served via a local web server.
+    
+    If you have Python installed:
+    ```bash
+    python -m http.server 8000
+    ```
+
+    Alternatively, using Node.js `http-server`:
+    ```bash
+    npx http-server .
+    ```
+
+3.  **Launch**
+    Open your web browser and navigate to `http://localhost:8000`.
+
+## Features and Implementation
+
+### GIS Integration and Real-World Maps
+One of the core features of VillageCraft is the ability to render real-world locations. This is achieved through a multi-step pipeline:
+
+1.  **Data Acquisition**: Satellite imagery and elevation data are sourced using QGIS.
+2.  **Asset Generation**: 
+    *   **Texture Map**: High-resolution satellite imagery is exported as a standard image file.
+    *   **Building Footprints**: Real-world building data is exported as GeoJSON polygons.
+3.  **Procedural Generation**:
+    *   The application reads the GeoJSON data to understand the exact footprint of every building.
+    *   It procedurally generates 3D geometry (extrusion) matching these footprints.
+    *   To ensure visual consistency, the system samples the color of the satellite map at the location of each building and applies it to the roof of the generated 3D model.
+
+### Game Mechanics
+
+#### Economy System
+The game features a dynamic economy driven by two main metrics:
+*   **Budget**: The currency used to place new structures.
+*   **Happiness**: A metric that determines passive income generation.
+Players earn passive income over time based on the happiness level of their village.
+
+#### Building and Placement
+*   **Ghost System**: When selecting a building, a transparent "ghost" model follows the cursor, allowing players to visualize placement before committing funds.
+*   **Collision and Validation**: The system checks for valid placement areas and prevents building out of bounds.
+*   **Edit Mode**: Players can toggle Edit Mode to select, move, or remove existing structures. Moving an object incurs a small relocation cost.
+
+#### Save and Load System
+*   **Local Persistence**: Game state is automatically saved to the browser's Local Storage, allowing for quick resumption.
+*   **Cloud Persistence**: For registered users, data is synchronized with a remote PHP backend, enabling cross-device progress tracking.
+
+### Architecture
+The codebase is structured around a modular class-based architecture to ensure maintainability:
+*   **GameState**: Single source of truth for economy, inventory, and game rules.
+*   **InputManager**: Handles complex mouse interactions, raycasting for 3D object selection, and state machines for placement logic.
+*   **AssetManager**: Manages the asynchronous loading of 3D models (GLB/GLTF) and procedural generation fallback logic.
+*   **TerrainManager**: Responsible for generating the ground plane and mapping GIS textures.
+*   **GISLoader**: specialized module for parsing spatial data and procedurally generating the environment.
